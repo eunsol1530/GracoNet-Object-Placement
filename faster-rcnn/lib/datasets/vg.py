@@ -162,7 +162,7 @@ class vg(imdb):
           if os.path.exists(filename):
               # Some images have no bboxes after object filtering, so there
               # is no xml annotation for these.
-              tree = ET.parse(filename)
+              tree = ET.parse(filename)  # @BUG_HERE_START
               for obj in tree.findall('object'):
                   obj_name = obj.find('name').text.lower().strip()
                   if obj_name in self._class_to_ind:
@@ -208,7 +208,7 @@ class vg(imdb):
         """
         width, height = self._get_size(index)
         filename = self._annotation_path(index)
-        tree = ET.parse(filename)
+        tree = ET.parse(filename)  # @BUG_HERE_END
         objs = tree.findall('object')
         num_objs = len(objs)
 

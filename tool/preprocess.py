@@ -33,7 +33,7 @@ def preprocess(data_root):
                 bg_catnm_idset[catnm] = set([id])
 
     # obtain the transformed training data
-    with open(os.path.join(data_root, 'train_data.csv'), 'w') as g:
+    with open(os.path.join(data_root, 'train_data.csv'), 'w') as g:  # @BUG_HERE_START
         g.write('imgID,annID,scID,bbox,scale,catnm,position,label,new_img_path,new_msk_path\n')
         csv_data = csv.DictReader(open(os.path.join(data_root, 'train_set.csv'), 'r'))
         for i, row in enumerate(csv_data):
@@ -85,7 +85,7 @@ def preprocess(data_root):
     with open(os.path.join(data_root, 'test_data_pos.csv'), 'r') as f:
         lines = f.readlines()
     fgbg_set = set([])
-    with open(os.path.join(data_root, 'test_data_pos_unique.csv'), 'w') as g:
+    with open(os.path.join(data_root, 'test_data_pos_unique.csv'), 'w') as g:  # @BUG_HERE_END
         for i, line in enumerate(lines):
             if i == 0:
                 g.write(line)

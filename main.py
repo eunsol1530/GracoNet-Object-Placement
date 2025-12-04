@@ -96,7 +96,7 @@ def main():
         opt.epoch = epoch + 1
         if opt.with_infer:
             with torch.no_grad():
-                infer(eval_loader, opt, model)
+                infer(eval_loader, opt, model)  # @BUG_HERE
 
         save(model_dir, model, opt, logger=logger)
 
