@@ -180,7 +180,7 @@ class imagenet(imdb):
             return node.getElementsByTagName(tag)[0].childNodes[0].data
 
         with open(filename) as f:
-            data = minidom.parseString(f.read())
+            data = minidom.parseString(f.read())  # @BUG_HERE
 
         objs = data.getElementsByTagName('object')
         num_objs = len(objs)

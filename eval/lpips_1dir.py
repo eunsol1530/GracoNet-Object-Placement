@@ -66,7 +66,7 @@ def main():
     dist_stderr = np.mean(dist_res[:,1])
     print(" - LPIPS (Variety): dist = {:.3f}, stderr = {:.6f}".format(dist_avg, dist_stderr))
     mark = 'a' if os.path.exists(os.path.join(data_dir, "{}_lpips_variety.txt".format(opt.eval_type))) else 'w'
-    with open(os.path.join(data_dir, "{}_lpips_variety.txt".format(opt.eval_type)), mark) as f:
+    with open(os.path.join(data_dir, "{}_lpips_variety.txt".format(opt.eval_type)), mark) as f:  # @BUG_HERE
         f.write("{}\n".format(datetime.datetime.now()))
         f.write(" - LPIPS (Variety): dist = {:.3f}, stderr = {:.6f}\n".format(dist_avg, dist_stderr))
 

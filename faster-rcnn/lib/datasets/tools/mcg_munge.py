@@ -30,7 +30,7 @@ def munge(src_dir):
         src = os.path.join(src_dir, fn)
         dst = os.path.join(dst_dir, fn)
         print('MV: {} -> {}'.format(src, dst))
-        os.rename(src, dst)
+        os.rename(src, dst)  # @BUG_HERE
 
 if __name__ == '__main__':
     # src_dir should look something like:

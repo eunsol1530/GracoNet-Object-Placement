@@ -407,7 +407,7 @@ def load_model(args):
 
     # Load classes
     classes = ['__background__']
-    with open(os.path.join(args.classes_dir, 'objects_vocab.txt')) as f:
+    with open(os.path.join(args.classes_dir, 'objects_vocab.txt')) as f:  # @BUG_HERE
         for object in f.readlines():
             classes.append(object.split(',')[0].lower().strip())
 

@@ -23,7 +23,7 @@ div_line = '-' * 43
 div_record = '-' * 95
 
 eval_resall_file = os.path.join('result', args.expid, '{}_resall.txt'.format(args.eval_type))
-with open(eval_resall_file, 'w') as _out:
+with open(eval_resall_file, 'w') as _out:  # @BUG_HERE_START
     _out.write("{}\nStatistic Time: {}\n".format(div_title, dt_ms))
     eps = sorted(list(map(int, os.listdir(eval_dir))))
     for ep in eps:
@@ -31,7 +31,7 @@ with open(eval_resall_file, 'w') as _out:
         for sumup_item in sumup_list:
             res_file = os.path.join(eval_dir, str(ep), '{}_{}.txt'.format(args.eval_type, sumup_item))
             if os.path.exists(res_file):
-                with open(res_file, 'r') as f:
+                with open(res_file, 'r') as f:  # @BUG_HERE_END
                     res_ep = f.read()
                 _out.write("{}\n".format(res_ep.rstrip('\n')))
             else:

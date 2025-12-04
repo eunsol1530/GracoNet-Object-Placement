@@ -292,7 +292,7 @@ def main():
                                           num_workers)
     print(" - FID = {:.2f}".format(fid_value))
     mark = 'a' if os.path.exists(os.path.join(data_dir, "{}_fid.txt".format(args.eval_type))) else 'w'
-    with open(os.path.join(data_dir, "{}_fid.txt".format(args.eval_type)), mark) as f:
+    with open(os.path.join(data_dir, "{}_fid.txt".format(args.eval_type)), mark) as f:  # @BUG_HERE
         f.write("{}\n".format(datetime.datetime.now()))
         f.write(" - FID = {:.2f}\n".format(fid_value))
 

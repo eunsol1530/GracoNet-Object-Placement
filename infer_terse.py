@@ -60,7 +60,7 @@ def infer(eval_loader, opt, model=None, repeat=1):
             gen_comp_msk.save(os.path.join(msk_sav_dir, '{}.png'.format(gen_file_name)))
             gen_res.append(csv_str(annid, scid, gen_comp_bbox, catnm, gen_file_name))
 
-    with open(csv_sav_file, "w") as f:
+    with open(csv_sav_file, "w") as f:  # @BUG_HERE
         f.write(csv_title() + '\n')
         for line in gen_res:
             f.write(line + '\n')
