@@ -10,7 +10,7 @@ from __future__ import absolute_import
 import os
 from datasets.imdb import imdb
 import datasets.ds_utils as ds_utils
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET  # Use defusedxml for secure XML parsing
 import numpy as np
 import scipy.sparse
 import gzip

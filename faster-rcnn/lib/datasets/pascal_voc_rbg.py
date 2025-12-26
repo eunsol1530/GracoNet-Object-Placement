@@ -11,7 +11,7 @@ from __future__ import print_function
 import os
 from datasets.imdb import imdb
 import datasets.ds_utils as ds_utils
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET  # Use defusedxml for safer XML parsing
 import numpy as np
 import scipy.sparse
 import scipy.io as sio
@@ -271,14 +271,12 @@ class pascal_voc(imdb):
     print('-----------------------------------------------------')
     path = os.path.join(cfg.ROOT_DIR, 'lib', 'datasets',
                         'VOCdevkit-matlab-wrapper')
-    cmd = 'cd {} && '.format(path)
-    cmd += '{:s} -nodisplay -nodesktop '.format(cfg.MATLAB)
-    cmd += '-r "dbstop if error; '
-    cmd += 'voc_eval(\'{:s}\',\'{:s}\',\'{:s}\',\'{:s}\'); quit;"' \
-      .format(self._devkit_path, self._get_comp_id(),
-              self._image_set, output_dir)
-    print(('Running:\n{}'.format(cmd)))
-    status = subprocess.call(cmd, shell=True)
+    cmd = ['cd', path, '&&', cfg.MATLAB, '-nodisplay', '-nodesktop', '-r',
+           "dbstop if error; voc_eval('{}','{}','{}','{}'); quit;".format(
+               self._devkit_path, self._get_comp_id(),
+               self._image_set, output_dir)]
+    print(('Running:\n{}'.format(' '.join(cmd))))
+    status = subprocess.call(cmd, shell=False)  # Use shell=False for security
 
   def evaluate_detections(self, all_boxes, output_dir):
     pdb.set_trace()

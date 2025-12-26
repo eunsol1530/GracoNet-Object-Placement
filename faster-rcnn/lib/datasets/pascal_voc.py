@@ -18,7 +18,7 @@ import math
 import glob
 import uuid
 import scipy.io as sio
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET  # Use defusedxml to prevent XXE attacks
 import pickle
 from .imdb import imdb
 from .imdb import ROOT_DIR
@@ -338,14 +338,11 @@ class pascal_voc(imdb):
         print('-----------------------------------------------------')
         path = os.path.join(cfg.ROOT_DIR, 'lib', 'datasets',
                             'VOCdevkit-matlab-wrapper')
-        cmd = 'cd {} && '.format(path)
-        cmd += '{:s} -nodisplay -nodesktop '.format(cfg.MATLAB)
-        cmd += '-r "dbstop if error; '
-        cmd += 'voc_eval(\'{:s}\',\'{:s}\',\'{:s}\',\'{:s}\'); quit;"' \
-            .format(self._devkit_path, self._get_comp_id(),
-                    self._image_set, output_dir)
-        print('Running:\n{}'.format(cmd))
-        status = subprocess.call(cmd, shell=True)
+        cmd = ['cd', path, '&&', cfg.MATLAB, '-nodisplay', '-nodesktop',
+               '-r', '"dbstop if error; voc_eval(\'{:s}\',\'{:s}\',\'{:s}\',\'{:s}\'); quit;"'.format(
+                   self._devkit_path, self._get_comp_id(), self._image_set, output_dir)]
+        print('Running:\n{}'.format(' '.join(cmd)))
+        status = subprocess.call(cmd, shell=False)
 
     def evaluate_detections(self, all_boxes, output_dir):
         self._write_voc_results_file(all_boxes)
